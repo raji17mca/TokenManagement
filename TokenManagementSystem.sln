@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30309.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TokenManagementSystem", "TokenManagementSystem\TokenManagementSystem.csproj", "{BA7363CE-0A15-421B-B9BA-4272698146DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TokenManagementSystem.Test", "TokenManagementSystem.Test\TokenManagementSystem.Test.csproj", "{A053B9D1-D55B-489C-8D98-746A12BA066C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA7363CE-0A15-421B-B9BA-4272698146DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA7363CE-0A15-421B-B9BA-4272698146DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA7363CE-0A15-421B-B9BA-4272698146DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA7363CE-0A15-421B-B9BA-4272698146DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A053B9D1-D55B-489C-8D98-746A12BA066C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A053B9D1-D55B-489C-8D98-746A12BA066C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A053B9D1-D55B-489C-8D98-746A12BA066C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A053B9D1-D55B-489C-8D98-746A12BA066C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DE600693-96A6-4741-9A53-7CE66099C92D}
+	EndGlobalSection
+EndGlobal
