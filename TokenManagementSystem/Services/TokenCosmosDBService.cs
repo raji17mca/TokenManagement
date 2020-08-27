@@ -9,6 +9,7 @@ namespace TokenManagementSystem.Services
     public class TokenCosmosDbService : ITokenCosmosDBService
     {
         private Container _container;
+        private readonly string queryString = "SELECT * FROM C";
 
         public TokenCosmosDbService(
             CosmosClient dbClient,
@@ -17,48 +18,47 @@ namespace TokenManagementSystem.Services
         {
             this._container = dbClient.GetContainer(databaseName, containerName);
         }
-        
-        public async Task AddItemAsync(TokenDetails tokenDetails)
+
+        public async Task AddItemAsync(CustomerDetails customer)
         {
-            await this._container.CreateItemAsync<TokenDetails>(tokenDetails, new PartitionKey(tokenDetails.Id));
+            int count = GetBankStaffTokenDetails(this.queryString).Count();
+
+            customer.TokenNumber = ++count;
+            customer.Status = "In Queue";
+            await this._container.CreateItemAsync<CustomerDetails>(customer, new PartitionKey(customer.Id));
         }
 
-        public async Task DeleteItemAsync(string id)
+        public IEnumerable<CustomerTokenDetails> GetCustomerTokenDetails(string queryString)
         {
-            await this._container.DeleteItemAsync<TokenDetails>(id, new PartitionKey(id));
-        }
-
-        public async Task<TokenDetails> GetItemAsync(string id)
-        {
-            try
-            {
-                ItemResponse<TokenDetails> response = await this._container.ReadItemAsync<TokenDetails>(id, new PartitionKey(id));
-                return response.Resource;
-            }
-            catch(CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-            { 
-                return null;
-            }
-
-        }
-
-        public async Task<IEnumerable<TokenDetails>> GetItemsAsync(string queryString)
-        {
-            var query = this._container.GetItemQueryIterator<TokenDetails>(new QueryDefinition(queryString));
-            List<TokenDetails> results = new List<TokenDetails>();
+            var query = this._container.GetItemQueryIterator<CustomerTokenDetails>(new QueryDefinition(queryString));
+            List<CustomerTokenDetails> results = new List<CustomerTokenDetails>();
             while (query.HasMoreResults)
             {
-                var response = await query.ReadNextAsync();
-                
-                results.AddRange(response.ToList());
+                var response = query.ReadNextAsync();
+
+                results.AddRange(response.Result);
             }
 
             return results;
         }
 
-        public async Task UpdateItemAsync(string id, TokenDetails tokenDetails)
+        public IEnumerable<BankStaffTokenDetails> GetBankStaffTokenDetails(string queryString)
         {
-            await this._container.UpsertItemAsync<TokenDetails>(tokenDetails, new PartitionKey(id));
+            var query = this._container.GetItemQueryIterator<BankStaffTokenDetails>(new QueryDefinition(queryString));
+            List<BankStaffTokenDetails> results = new List<BankStaffTokenDetails>();
+            while (query.HasMoreResults)
+            {
+                var response =  query.ReadNextAsync();
+
+                results.AddRange(response.Result);
+            }
+
+            return results;
+        }
+
+        public void UpdateItemAsync(string id, CustomerDetails customerDetails)
+        {
+            this._container.UpsertItemAsync<CustomerDetails>(customerDetails, new PartitionKey(id));
         }
     }
 }
