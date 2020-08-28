@@ -1,9 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace TokenManagementSystem.Models
 {
@@ -30,11 +26,11 @@ namespace TokenManagementSystem.Models
 
         [Required]
         public string ServiceType { get; set; }
-
+        
         public int TokenNumber { get; set; }
-
+       
         public string Status { get; set; }
-
+  
         public int? Counter { get; set; }
         
     }

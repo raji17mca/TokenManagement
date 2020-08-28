@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TokenManagementSystem.Models
 {
-    public class CustomerTokenDetails
+    public class CustomerTokenDashboard
     {
         public string ServiceType { get; set; }
 

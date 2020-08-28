@@ -6,11 +6,11 @@ namespace TokenManagementSystem.Services
 {
     public interface ITokenCosmosDBService
     {
-        IEnumerable<CustomerTokenDetails> GetCustomerTokenDetails(string query);
+        IEnumerable<CustomerTokenDashboard> GetCustomerTokenDetails();
 
-        IEnumerable<BankStaffTokenDetails> GetBankStaffTokenDetails(string query);
+        IEnumerable<BankTokenDashboard> GetBankStaffTokenDetails();
 
-        Task AddItemAsync(CustomerDetails customer);
+        Task<int> AddItemAsync(CustomerDetails customer);
 
         Task UpdateItemAsync(string id, string status);
     }
