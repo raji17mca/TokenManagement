@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TokenManagementSystem.Models;
@@ -22,7 +23,7 @@ namespace TokenManagementSystem.Controllers
         [HttpGet]
         public IEnumerable<CustomerTokenDetails> Get()
         {
-            return  this.tokenCosmosDbService.GetCustomerTokenDetails("SELECT * FROM C");
+            return  this.tokenCosmosDbService.GetCustomerTokenDetails("SELECT * FROM C WHERE C.Status != 'Served'");
         }
 
         // GET api/<TokenController>/5
@@ -38,9 +39,8 @@ namespace TokenManagementSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-               customerDetails.Id = Guid.NewGuid().ToString();
                await this.tokenCosmosDbService.AddItemAsync(customerDetails);
-                return Ok();
+               return Ok();
             }
 
             return BadRequest("Not a valid model");
@@ -48,8 +48,15 @@ namespace TokenManagementSystem.Controllers
 
         // PUT api/<TokenController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(string id, [FromBody] string status)
         {
+            if (!string.IsNullOrEmpty(status))
+            {
+                await this.tokenCosmosDbService.UpdateItemAsync(id, status);
+                return Ok();
+            }
+
+            return BadRequest("Not a valid status");
         }
     }
 }
