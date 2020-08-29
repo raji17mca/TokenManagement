@@ -23,10 +23,10 @@ namespace TokenManagementSystem.Services
             this._container = dbClient.GetContainer(databaseName, containerName);
         }
 
-        public async Task<int> AddItemAsync(CustomerDetails customer)
+        public async Task<int> AddCustomerDetails(CustomerDetails customer)
         {
-            int count = this._container.GetItemLinqQueryable<CustomerDetails>(true).AsEnumerable().Count();
-
+           var count = this._container.GetItemLinqQueryable<CustomerDetails>(true).AsQueryable().Count();
+           
             customer.Id = Guid.NewGuid().ToString();
             customer.TokenNumber = ++count;
             customer.Status = Status.InQueue;
@@ -36,9 +36,9 @@ namespace TokenManagementSystem.Services
         }
 
 
-        public async Task<bool> UpdateItemAsync(string id, string status)
+        public async Task<bool> UpdateCustomerDetails(string id, string status)
         {
-            var customer = this._container.GetItemLinqQueryable<CustomerDetails>(true).Where(x => x.Id == id).AsEnumerable().FirstOrDefault();
+            var customer = this._container.GetItemLinqQueryable<CustomerDetails>(true).Where(x => x.Id == id).AsQueryable().FirstOrDefault();
 
             if(customer != null)
             {
@@ -52,14 +52,14 @@ namespace TokenManagementSystem.Services
            
         }
 
-        public IEnumerable<BankTokenDashboard> GetBankStaffTokenDetails()
+        public IList<BankTokenDashboard> GetBankTokenDashboardDetails()
         {
-            return this._container.GetItemLinqQueryable<BankTokenDashboard>(true).AsEnumerable().ToList();
+            return this._container.GetItemLinqQueryable<BankTokenDashboard>(true).AsQueryable().ToList();
         }
 
-        public IEnumerable<CustomerTokenDashboard> GetCustomerTokenDetails()
+        public IList<CustomerTokenDashboard> GetCustomerTokenDashboardDetails()
         {
-            var customerList = this._container.GetItemLinqQueryable<CustomerDetails>(true).Where(x=> x.Status != Status.Served).AsEnumerable().ToList();
+            var customerList = this._container.GetItemLinqQueryable<CustomerDetails>(true).Where(x=> x.Status != Status.Served).AsQueryable().ToList();
 
             List<CustomerTokenDashboard> customerTokenDetailsList = new List<CustomerTokenDashboard>();
 

@@ -23,7 +23,7 @@ namespace TokenManagementSystem.Test.Controllers
 
             List<BankTokenDashboard> banktokenDashboardList = GetBankTokenDashboardList();
 
-            mockService.Setup(x => x.GetBankStaffTokenDetails()).Returns(banktokenDashboardList);
+            mockService.Setup(x => x.GetBankTokenDashboardDetails()).Returns(banktokenDashboardList);
 
             // Act
             var actual = controller.Get();
@@ -53,7 +53,7 @@ namespace TokenManagementSystem.Test.Controllers
         {
             var mockService = new Mock<ITokenCosmosDBService>();
 
-            mockService.Setup(x => x.UpdateItemAsync(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(true));
+            mockService.Setup(x => x.UpdateCustomerDetails(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(true));
 
             var controller = new BankTokenDashboardController(mockService.Object);
 
@@ -70,7 +70,7 @@ namespace TokenManagementSystem.Test.Controllers
         {
             var mockService = new Mock<ITokenCosmosDBService>();
 
-            mockService.Setup(x => x.UpdateItemAsync(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(false));
+            mockService.Setup(x => x.UpdateCustomerDetails(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(false));
 
             var controller = new BankTokenDashboardController(mockService.Object);
 

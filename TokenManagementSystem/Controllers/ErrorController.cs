@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -13,6 +14,7 @@ namespace TokenManagementSystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiExplorerSettings(IgnoreApi = true)]
+    [ExcludeFromCodeCoverage]
     public class ErrorController : ControllerBase
     {
         [Route("/error")]

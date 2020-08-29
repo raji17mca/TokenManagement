@@ -21,18 +21,22 @@ namespace TokenManagementSystem.Controllers
 
         // GET api/<BankTokenDashboardController>/Get
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IEnumerable<BankTokenDashboard> Get()
         {
-            return this.tokenCosmosDbService.GetBankStaffTokenDetails();
+            return this.tokenCosmosDbService.GetBankTokenDashboardDetails();
         }
 
         // PUT api/<BankTokenDashboardController>/5
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Put(string id, [FromBody] string status)
         {
             if (!string.IsNullOrEmpty(status))
             {
-                var result = await this.tokenCosmosDbService.UpdateItemAsync(id, status);
+                var result = await this.tokenCosmosDbService.UpdateCustomerDetails(id, status);
 
                 return result == true ? Ok() : (IActionResult)NotFound();
             }

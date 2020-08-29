@@ -19,18 +19,21 @@ namespace TokenManagementSystem.Controllers
 
         // GET: api/<CustomerTokenDashboardController>/Get
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IEnumerable<CustomerTokenDashboard> Get()
         {
-            return this.tokenCosmosDbService.GetCustomerTokenDetails();
+            return this.tokenCosmosDbService.GetCustomerTokenDashboardDetails();
         }
 
         // POST api/<CustomerTokenDashboardController>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post([FromBody] CustomerDetails customerDetails)
         {
             if (ModelState.IsValid)
             {
-               var result = await this.tokenCosmosDbService.AddItemAsync(customerDetails);
+               var result = await this.tokenCosmosDbService.AddCustomerDetails(customerDetails);
                return StatusCode(StatusCodes.Status201Created, result);
             }
 
