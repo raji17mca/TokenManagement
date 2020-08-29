@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using TokenManagementSystem.Constants;
 using TokenManagementSystem.Models;
@@ -34,17 +36,20 @@ namespace TokenManagementSystem.Services
         }
 
 
-        public async Task UpdateItemAsync(string id, string status)
+        public async Task<bool> UpdateItemAsync(string id, string status)
         {
             var customer = this._container.GetItemLinqQueryable<CustomerDetails>(true).Where(x => x.Id == id).AsEnumerable().FirstOrDefault();
 
-            if (customer != null)
+            if(customer != null)
             {
                 customer.Counter = customer.ServiceType == ServiceType.BankTransaction ? 1 : 2;
                 customer.Status = status;
+                await this._container.UpsertItemAsync<CustomerDetails>(customer, new PartitionKey(id));
+                return true;
             }
 
-            await this._container.UpsertItemAsync<CustomerDetails>(customer, new PartitionKey(id));
+            return false;
+           
         }
 
         public IEnumerable<BankTokenDashboard> GetBankStaffTokenDetails()

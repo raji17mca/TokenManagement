@@ -12,6 +12,6 @@ namespace TokenManagementSystem.Services
 
         Task<int> AddItemAsync(CustomerDetails customer);
 
-        Task UpdateItemAsync(string id, string status);
+        Task<bool> UpdateItemAsync(string id, string status);
     }
 }

@@ -32,8 +32,9 @@ namespace TokenManagementSystem.Controllers
         {
             if (!string.IsNullOrEmpty(status))
             {
-                await this.tokenCosmosDbService.UpdateItemAsync(id, status);
-                return Ok();
+                var result = await this.tokenCosmosDbService.UpdateItemAsync(id, status);
+
+                return result == true ? Ok() : (IActionResult)NotFound();
             }
 
             return BadRequest("Not a valid status");
