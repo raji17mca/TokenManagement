@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
-
-namespace TokenManagementSystem.Controllers
+﻿namespace TokenManagementSystem.Controllers
 {
+    using System.Diagnostics.CodeAnalysis;
+    using System.Net;
+    using System.Net.Http;
+    using Microsoft.AspNetCore.Diagnostics;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+
     [Route("api/[controller]")]
     [ApiExplorerSettings(IgnoreApi = true)]
     [ExcludeFromCodeCoverage]

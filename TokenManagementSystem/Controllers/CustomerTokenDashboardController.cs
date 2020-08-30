@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using TokenManagementSystem.Models;
-using TokenManagementSystem.Services;
-
-namespace TokenManagementSystem.Controllers
+﻿namespace TokenManagementSystem.Controllers
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using TokenManagementSystem.Models;
+    using TokenManagementSystem.Services;
+
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerTokenDashboardController : ControllerBase

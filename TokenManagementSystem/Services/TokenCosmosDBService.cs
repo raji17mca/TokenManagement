@@ -1,16 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Cosmos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using TokenManagementSystem.Constants;
-using TokenManagementSystem.Models;
-
-namespace TokenManagementSystem.Services
+﻿namespace TokenManagementSystem.Services
 {
+    using Microsoft.Azure.Cosmos;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using TokenManagementSystem.Constants;
+    using TokenManagementSystem.Models;
+
     public class TokenCosmosDbService : ITokenCosmosDBService
     {
         private Container _container;
@@ -31,20 +28,20 @@ namespace TokenManagementSystem.Services
             customer.TokenNumber = ++count;
             customer.Status = Status.InQueue;
 
-            await this._container.CreateItemAsync<CustomerDetails>(customer, new PartitionKey(customer.Id));
+            await this._container.CreateItemAsync<CustomerDetails>(customer, new PartitionKey(customer.ServiceType));
             return customer.TokenNumber;
         }
 
 
         public async Task<bool> UpdateCustomerDetails(string id, string status)
         {
-            var customer = this._container.GetItemLinqQueryable<CustomerDetails>(true).Where(x => x.Id == id).AsQueryable().FirstOrDefault();
+            var customer = this._container.GetItemLinqQueryable<CustomerDetails>(true).Where(x => x.Id == id).AsEnumerable().FirstOrDefault();
 
             if(customer != null)
             {
                 customer.Counter = customer.ServiceType == ServiceType.BankTransaction ? 1 : 2;
                 customer.Status = status;
-                await this._container.UpsertItemAsync<CustomerDetails>(customer, new PartitionKey(id));
+                await this._container.UpsertItemAsync<CustomerDetails>(customer, new PartitionKey(customer.ServiceType));
                 return true;
             }
 

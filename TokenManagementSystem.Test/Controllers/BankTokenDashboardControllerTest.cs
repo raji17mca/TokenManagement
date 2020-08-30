@@ -34,14 +34,17 @@ namespace TokenManagementSystem.Test.Controllers
         }
 
         [Test]
-        public async Task Put_ReturnsBadRequestResult_WhenStatusIsInValid()
+        [TestCase(null)]
+        [TestCase("test")]
+        [TestCase("")]
+        public async Task Put_ReturnsBadRequestResult_WhenStatusIsInValid(string status)
         {
             var mockService = new Mock<ITokenCosmosDBService>();
 
             var controller = new BankTokenDashboardController(mockService.Object);
 
             // Act
-            var actual = await controller.Put(Guid.NewGuid().ToString(), null) as Microsoft.AspNetCore.Mvc.BadRequestObjectResult;
+            var actual = await controller.Put(Guid.NewGuid().ToString(), status) as Microsoft.AspNetCore.Mvc.BadRequestObjectResult;
 
             // Asset
             Assert.AreEqual( StatusCodes.Status400BadRequest, actual.StatusCode);

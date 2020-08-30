@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using TokenManagementSystem.Models;
-
-namespace TokenManagementSystem.Services
+﻿namespace TokenManagementSystem.Services
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using TokenManagementSystem.Models;
+
     public interface ITokenCosmosDBService
     {
         IList<CustomerTokenDashboard> GetCustomerTokenDashboardDetails();

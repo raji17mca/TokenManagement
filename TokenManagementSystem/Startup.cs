@@ -73,7 +73,7 @@ namespace TokenManagementSystem
                 .Build();
             TokenCosmosDbService tokenCosmosDbService = new TokenCosmosDbService(client, databaseName, containerName);
             DatabaseResponse database = await client.CreateDatabaseIfNotExistsAsync(databaseName);
-            await database.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
+            await database.Database.CreateContainerIfNotExistsAsync(containerName, "/ServiceType");
 
             return tokenCosmosDbService;
         }

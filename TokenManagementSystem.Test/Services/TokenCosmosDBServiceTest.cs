@@ -38,17 +38,13 @@ namespace TokenManagementSystem.Test.Services
         [Test]
         public async Task UpdateCustomerDetails_ShouldUpdateCustomerDetails_ReturnTrue()
         {
-            var mockContainer = new Mock<Container>();
-            var mockCosmosClient = new Mock<CosmosClient>();
-            var mockQueryable = new Mock<IOrderedQueryable>();
-
+            // Arrange
             var queyableCustomerDetails = new List<CustomerDetails>{
                 new CustomerDetails { Id ="12345", Name = "Raji"}
             }.AsQueryable();
 
 
-            mockContainer.Setup(x => x.GetItemLinqQueryable<CustomerDetails>(true, null, null)).Returns((IOrderedQueryable<CustomerDetails>)queyableCustomerDetails);
-            mockCosmosClient.Setup(x => x.GetContainer(It.IsAny<string>(), It.IsAny<string>())).Returns(mockContainer.Object);
+            Mock<CosmosClient> mockCosmosClient = MockCosmosClient(queyableCustomerDetails);
 
             var service = new TokenCosmosDbService(mockCosmosClient.Object, "CosmosDb", "Collection");
 
@@ -62,17 +58,12 @@ namespace TokenManagementSystem.Test.Services
         [Test]
         public async Task UpdateCustomerDetails_ShouldNotUpdateCustomerDetails_ReturnFalse()
         {
-            var mockContainer = new Mock<Container>();
-            var mockCosmosClient = new Mock<CosmosClient>();
-            var mockQueryable = new Mock<IOrderedQueryable>();
-
+            // Arrange 
             var queyableCustomerDetails = new List<CustomerDetails>{
                 new CustomerDetails { Id ="12345", Name = "Raji"}
             }.AsQueryable();
 
-
-            mockContainer.Setup(x => x.GetItemLinqQueryable<CustomerDetails>(true, null, null)).Returns((IOrderedQueryable<CustomerDetails>)queyableCustomerDetails);
-            mockCosmosClient.Setup(x => x.GetContainer(It.IsAny<string>(), It.IsAny<string>())).Returns(mockContainer.Object);
+            Mock<CosmosClient> mockCosmosClient = MockCosmosClient(queyableCustomerDetails);
 
             var service = new TokenCosmosDbService(mockCosmosClient.Object, "CosmosDb", "Collection");
 
@@ -112,19 +103,13 @@ namespace TokenManagementSystem.Test.Services
         [Test]
         public void GetCustomerDashboardTokenDetails__ReturnEstimatedWaitingTImeAsExpected()
         {
-            var mockContainer = new Mock<Container>();
-            var mockCosmosClient = new Mock<CosmosClient>();
-            var mockQueryable = new Mock<IOrderedQueryable>();
-
-            var queryableResult = new List<CustomerDetails>{
+            var queyableCustomerDetails = new List<CustomerDetails>{
                 new CustomerDetails { Id ="12345", ServiceType = ServiceType.Service, TokenNumber = 1, Status = Status.Served },
                 new CustomerDetails { Id ="55555", ServiceType = ServiceType.Service, Counter = 1,TokenNumber = 2, Status = Status.InQueue },
                 new CustomerDetails { Id ="66666", ServiceType = ServiceType.BankTransaction, Counter = 2, TokenNumber = 3, Status = Status.InQueue }
             }.AsQueryable();
 
-
-            mockContainer.Setup(x => x.GetItemLinqQueryable<CustomerDetails>(true, null, null)).Returns((IOrderedQueryable<CustomerDetails>)queryableResult);
-            mockCosmosClient.Setup(x => x.GetContainer(It.IsAny<string>(), It.IsAny<string>())).Returns(mockContainer.Object);
+            Mock<CosmosClient> mockCosmosClient = MockCosmosClient(queyableCustomerDetails);
 
             var service = new TokenCosmosDbService(mockCosmosClient.Object, "CosmosDb", "Collection");
 
@@ -136,6 +121,17 @@ namespace TokenManagementSystem.Test.Services
             Assert.AreEqual(2, actual.Count());
             Assert.AreEqual(25, actual[0].EstimatedWaitingTime);
             Assert.AreEqual(5, actual[1].EstimatedWaitingTime);
+        }
+
+        private static Mock<CosmosClient> MockCosmosClient(IQueryable<CustomerDetails> queyableCustomerDetails)
+        {
+            var mockContainer = new Mock<Container>();
+            var mockCosmosClient = new Mock<CosmosClient>();
+            var mockQueryable = new Mock<IOrderedQueryable>();
+
+            mockContainer.Setup(x => x.GetItemLinqQueryable<CustomerDetails>(true, null, null)).Returns((IOrderedQueryable<CustomerDetails>)queyableCustomerDetails);
+            mockCosmosClient.Setup(x => x.GetContainer(It.IsAny<string>(), It.IsAny<string>())).Returns(mockContainer.Object);
+            return mockCosmosClient;
         }
     }
 }

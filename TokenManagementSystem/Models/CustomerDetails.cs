@@ -25,6 +25,7 @@ namespace TokenManagementSystem.Models
         public string CustomerType { get; set; }
 
         [Required]
+        [RegularExpression(Constants.ServiceType.Service + "|" + Constants.ServiceType.BankTransaction, ErrorMessage = " Value must be Bank Transaction or Service")]
         public string ServiceType { get; set; }
         
         public int TokenNumber { get; set; }

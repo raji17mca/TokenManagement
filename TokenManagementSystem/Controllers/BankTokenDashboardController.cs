@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using TokenManagementSystem.Models;
-using TokenManagementSystem.Services;
-
-namespace TokenManagementSystem.Controllers
+﻿namespace TokenManagementSystem.Controllers
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using TokenManagementSystem.Constants;
+    using TokenManagementSystem.Models;
+    using TokenManagementSystem.Services;
+
     [Route("api/[controller]")]
     [ApiController]
     public class BankTokenDashboardController : ControllerBase
@@ -34,7 +33,7 @@ namespace TokenManagementSystem.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Put(string id, [FromBody] string status)
         {
-            if (!string.IsNullOrEmpty(status))
+            if (!string.IsNullOrEmpty(status) && (Status.InCounter == status || Status.Served == status))
             {
                 var result = await this.tokenCosmosDbService.UpdateCustomerDetails(id, status);
 
