@@ -51,6 +51,9 @@ namespace TokenManagementSystem
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            } else
+            {
+                app.UseExceptionHandler("/error");
             }
 
             app.UseRouting();
