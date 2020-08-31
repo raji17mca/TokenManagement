@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using TokenManagementSystem.Filter;
 
 namespace TokenManagementSystem.Models
 {
@@ -7,6 +8,7 @@ namespace TokenManagementSystem.Models
     {
         [Key]
         [JsonProperty( PropertyName = "id")]
+        [SwaggerExclude]
         public string Id { get; set; }
        
         [Required]
@@ -27,11 +29,14 @@ namespace TokenManagementSystem.Models
         [Required]
         [RegularExpression(Constants.ServiceType.Service + "|" + Constants.ServiceType.BankTransaction, ErrorMessage = " Value must be Bank Transaction or Service")]
         public string ServiceType { get; set; }
-        
+
+        [SwaggerExclude]
         public int TokenNumber { get; set; }
-       
+
+        [SwaggerExclude]
         public string Status { get; set; }
-  
+
+        [SwaggerExclude]
         public int? Counter { get; set; }
         
     }
